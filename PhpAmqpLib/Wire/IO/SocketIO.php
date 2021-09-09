@@ -125,7 +125,7 @@ class SocketIO extends AbstractIO
                 // the return value will be 0 (the traditional "end-of-file" return).
                 // http://php.net/manual/en/function.socket-recv.php#47182
                 $this->close();
-                throw new AMQPConnectionClosedException('Broken pipe or closed connection');
+                throw new AMQPConnectionClosedException('no connection to the server');
             }
 
             if (empty($buffer)) {
@@ -243,7 +243,7 @@ class SocketIO extends AbstractIO
     {
         if (!is_resource($this->sock) && !is_a($this->sock, \Socket::class)) {
             $this->sock = null;
-            throw new AMQPConnectionClosedException('Broken pipe or closed connection', 0);
+            throw new AMQPConnectionClosedException('no connection to the server', 0);
         }
 
         $read = array($this->sock);

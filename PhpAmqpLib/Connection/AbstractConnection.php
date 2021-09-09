@@ -568,7 +568,7 @@ abstract class AbstractConnection extends AbstractChannel
     {
         if (null === $this->input) {
             $this->setIsConnected(false);
-            throw new AMQPConnectionClosedException('Broken pipe or closed connection');
+            throw new AMQPConnectionClosedException('no connection to the server');
         }
 
         $currentTimeout = $this->input->getTimeout();

@@ -169,7 +169,7 @@ class StreamIO extends AbstractIO
         while ($read < $len) {
             if (!is_resource($this->sock) || feof($this->sock)) {
                 $this->close();
-                throw new AMQPConnectionClosedException('Broken pipe or closed connection');
+                throw new AMQPConnectionClosedException('no connection to the server');
             }
 
             $this->set_error_handler();
@@ -231,7 +231,7 @@ class StreamIO extends AbstractIO
             if (!is_resource($this->sock) || feof($this->sock)) {
                 $this->close();
                 $constants = SocketConstants::getInstance();
-                throw new AMQPConnectionClosedException('Broken pipe or closed connection', $constants->SOCKET_EPIPE);
+                throw new AMQPConnectionClosedException('no connection to the server', $constants->SOCKET_EPIPE);
             }
 
             $result = false;
@@ -283,7 +283,7 @@ class StreamIO extends AbstractIO
             } else {
                 if (feof($this->sock)) {
                     $this->close();
-                    throw new AMQPConnectionClosedException('Broken pipe or closed connection');
+                    throw new AMQPConnectionClosedException('no connection to the server');
                 }
                 if (($now - $write_start) > $this->write_timeout) {
                     throw AMQPTimeoutException::writeTimeout($this->write_timeout);
@@ -337,7 +337,7 @@ class StreamIO extends AbstractIO
     {
         if ($this->sock === null || !is_resource($this->sock)) {
             $this->sock = null;
-            throw new AMQPConnectionClosedException('Broken pipe or closed connection', 0);
+            throw new AMQPConnectionClosedException('no connection to the server', 0);
         }
 
         $read = array($this->sock);
